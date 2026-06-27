@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Plateforme E-Learning BTS DAI - Version Avancée</title>
+    <style>
+        /* --- Styles Globaux & Design Beige-Brown Elegant --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-dark: #2c2520;
+            --bg-sidebar: #3d342e;
+            --primary-color: #d4a373;
+            --primary-hover: #bfa17f;
+            --accent-color: #e6ccb2;
+            --text-light: #fefae0;
+            --text-muted: #ccd5ae;
+            --bg-content: #faedcd;
+            --card-bg: #fefae0;
+            --border-color: #e6ccb2;
+            --code-bg: #1e1e1e;
+        }
+
+        body {
+            background-color: var(--bg-content);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Page d'accueil (Login/Register) --- */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: var(--bg-sidebar);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 950px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+        }
+
+        .login-image-side {
+            flex: 1.1;
+            background: linear-gradient(135deg, rgba(61,52,46,0.3), rgba(44,37,32,0.5)), 
+                        url('busy-tech-office-stockcake.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 30px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .login-image-side h1 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .login-form-side {
+            flex: 1.2;
+            padding: 30px;
+            background-color: #3d342e;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .login-form-side h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 6px;
+            text-align: center;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-size: 12.5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 6px;
+            border: 1px solid #5c4d44;
+            background-color: #2c2520;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 11px;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            color: #2c2520;
+            font-size: 14.5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .login-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 12.5px;
+            text-align: center;
+            display: none;
+        }
+
+        .signature-sghira {
+            font-size: 11px;
+            color: var(--accent-color);
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        /* --- Application Principale --- */
+        header {
+            background-color: var(--bg-dark);
+            color: var(--primary-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            z-index: 10;
+        }
+
+        .user-badge {
+            background: #3d342e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            color: #fff;
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 290px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: 1px solid #5c4d44;
+        }
+
+        .sidebar-title {
+            padding: 15px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+            font-weight: bold;
+            background: #2c2520;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item a {
+            display: block;
+            padding: 12px 20px;
+            color: #e6ccb2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item a:hover, .nav-item.active a {
+            background-color: rgba(212, 163, 115, 0.15);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-item.admin-tab a {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        /* --- Content Area --- */
+        .content-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-header {
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #3d342e;
+            margin: 15px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border-color);
+            font-weight: bold;
+        }
+
+        .resume-box {
+            background-color: #fff;
+            border-left: 4px solid var(--primary-color);
+            padding: 12px;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13.5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            line-height: 1.5;
+            border-left: 4px solid #ffcc00;
+        }
+
+        .btn-youtube {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-youtube:hover {
+            background-color: #cc0000;
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+        }
+
+        /* --- Tableau Admin --- */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-table th {
+            background-color: var(--bg-sidebar);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .admin-table tr:hover { background-color: #fcf8f2; }
+        .badge-status { background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+
+        /* --- Quiz & Examen Styles --- */
+        .quiz-container { background: #fcf8f2; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 15px; }
+        .quiz-question { font-weight: bold; font-size: 14.5px; margin-bottom: 10px; color: #3d342e;}
+        .quiz-options label { display: block; background: #fff; padding: 10px 12px; margin-bottom: 6px; border-radius: 4px; border: 1px solid var(--border-color); cursor: pointer; font-size: 13.5px; transition: 0.2s; }
+        .quiz-options label:hover { background-color: var(--bg-content); }
+        .quiz-options input { margin-right: 10px; }
+        .btn-quiz { background: var(--bg-sidebar); color: var(--primary-color); border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 8px; transition: 0.3s; }
+        .btn-quiz:hover { background-color: var(--bg-dark); }
+        .quiz-result { margin-top: 12px; padding: 10px; border-radius: 4px; font-weight: bold; display: none; font-size: 14px; }
+        .result-correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .result-wrong { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        /* --- Conseil Section --- */
+        .conseil-card { background: #fff; border-left: 5px solid #d4a373; padding: 15px; border-radius: 6px; line-height: 1.6; font-size: 14px; color: #3d342e; }
+        .conseil-card ul { margin-left: 20px; margin-top: 10px; }
+        .conseil-card li { margin-bottom: 8px; }
+
+        footer {
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            color: #3d342e;
+            font-weight: 500;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="login-overlay" id="authBox">
+        <div class="login-container">
+            
+            <div class="login-image-side">
+                <h1>🎓 Espace Études BTS DAI</h1>
+                <p style="font-size: 13px; opacity: 0.9; margin-top: 5px;">Développement d'Applications Informatiques</p>
+            </div>
+
+            <div class="login-form-side">
+                <h2>📝 Inscription Étudiant</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nom :</label>
+                        <input type="text" id="regNom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Prénom :</label>
+                        <input type="text" id="regPrenom" placeholder="Prénom" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Adresse Email :</label>
+                    <input type="email" id="regEmail" placeholder="exemple@mail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mot de passe :</label>
+                    <input type="password" id="regPass" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Niveau d'étude :</label>
+                        <select id="regNiveau">
+                            <option value="1ère Année BTS">1ère Année BTS</option>
+                            <option value="2ème Année BTS">2ème Année BTS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Filière :</label>
+                        <select id="regFiliere">
+                            <option value="DAI">DAI</option>
+                            <option value="DSI">DSI</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ville :</label>
+                    <input type="text" id="regVille" placeholder="Ex: Settat" required>
+                </div>
+
+                <button class="btn-login" onclick="creerSession()">🚀 Se Connecter & Enregistrer</button>
+                <div class="login-error" id="authError"></div>
+                
+                <div class="signature-sghira">✨ Plateforme créée par Fatima Zahra Benjdia</div>
+            </div>
+
+        </div>
+    </div>
+
+    <header>
+        <h2>💻 PORTAL BTS E-LEARNING</h2>
+        <div>
+            <span class="user-badge" id="navUserBadge">👤 Étudiant</span>
+            <button class="btn-logout" onclick="seDeconnecter()">🚪 Déconnexion</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-title" style="color: #ffcc00;">🔒 Espace Contrôle</div>
+            <ul class="nav-list">
+                <li class="nav-item admin-tab" id="m-admin"><a href="#" onclick="changerModule('admin')">👥 Qui est en ligne ?</a></li>
+            </ul>
+
+            <div class="sidebar-title">📚 Modules Informatiques</div>
+            <ul class="nav-list">
+                <li class="nav-item active" id="m-python"><a href="#" onclick="changerModule('python')">🐍 Python</a></li>
+                <li class="nav-item" id="m-langc"><a href="#" onclick="changerModule('langc')">⚙️ Language C</a></li>
+                <li class="nav-item" id="m-sql"><a href="#" onclick="changerModule('sql')">🗄️ Requêtes SQL</a></li>
+                <li class="nav-item" id="m-multimedia"><a href="#" onclick="changerModule('multimedia')">🎨 Multimedia (HTML/CSS/JS)</a></li>
+                <li class="nav-item" id="m-php"><a href="#" onclick="changerModule('php')">🐘 Web Dynamique PHP</a></li>
+            </ul>
+
+            <div class="sidebar-title">💡 Conseils Coaching</div>
+            <ul class="nav-list">
+                <li class="nav-item" id="m-organisation"><a href="#" onclick="changerModule('organisation')">📅 Gestion du Temps</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+
+            <div id="c-admin" class="module-view hidden">
+                <div class="module-header">
+                    <h2>📊 Tableau de Suivi - Liste des Étudiants Connectés</h2>
+                </div>
+                <div class="course-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>👤 Nom & Prénom</th>
+                                <th>📅 Niveau d'étude</th>
+                                <th>🎓 Filière</th>
+                                <th>📍 Ville</th>
+                                <th>🟢 Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listeEtudiantsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="c-python" class="module-view">
+                <div class="module-header">
+                    <h2>🐍 Programmation Python (Les Boucles & Fonctions)</h2>
+                    <a href="https://www.youtube.com/results?search_query=python+darija" target="_blank" class="btn-youtube">🎥 Prof Python on YouTube</a>
+                </div>
+                
+                <div class="course-card">
+                    <div class="section-title">📖 Leçon: La Boucle FOR o WHILE</div>
+                    <div class="resume-box">
+                        L-boucle <b>for</b> kat-esta3mel melli kankounou 3arfin ch7al mn merra ghadin n-bclew (b7al range). L-boucle <b>while</b> katb9a khdama maddam wa7ed l-charte s7i7.
+                    </div>
+                    <div class="code-block">
+# Exemple Boucle For f Python
+for i in range(1, 6):
+    print("Numéro :", i)
+
+# Exemple de fonction
+def saluer(nom):
+    return "Bonjour " + nom
+                    </div>
+
+                    <div class="section-title">📝 Examen Blanc Python</div>
+                    <div class="resume-box">
+                        <b>Exercice:</b> Écrire un script Python qui calcule la somme des nombres pairs dans une liste.
+                    </div>
+                    <div class="code-block">
+def somme_pairs(liste):
+    s = 0
+    for n in liste:
+        if n % 2 == 0:
+            s += n
+    return s
+
+print(somme_pairs([1, 2, 3, 4, 6])) # Résultat: 12
+                    </div>
+
+                    <div class="section-title">⏱️ Quiz Rapide</div>
+                    <div class="quiz-container">
+                        <div class="quiz-question">1. Quel est le résultat de len([1, 2, [3, 4]]) ?</div>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q-py1" value="0">4</label>
+                            <label><input type="radio" name="q-py1" value="1">3</label>
+                        </div>
+                        <button class="btn-quiz" onclick="verifierQuiz('q-py1', 1, 'res-py1')">Valider</button>
+                        <div class="quiz-result" id="res-py1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="c-langc" class="module-view hidden">
+                <div class="module-header">
+                    <h2>⚙️ Structure & Pointeurs en Algorithmique C</h2>
+                    <a href="https://www.youtube.com/results?search_query=langage+c+darija" target="_blank" class="btn-youtube">🎥 Prof Language C on YouTube</a>
+                </div>
+                
+                <div class="course-card">
+                    <div class="section-title">📖 Leçon: Les Tableaux et les Pointeurs</div>
+                    <div class="resume-box">
+                        Language C hwa l-sass dyal l-informatique. L-pointeur hwa wa7ed l-variable li kaykhbi l-adresse dyal variable khor f l-mémoire RAM (`&valeur`).
+                    </div>
+                    <div class="code-block">
+#include &lt;stdio.h&gt;
+
+int main() {
+    int age = 19;
+    int *ptr = &age; // ptr fih l-adresse dyal age
+    
+    printf("Valeur de age: %d\n", *ptr);
+    return 0;
+}
+                    </div>
+
+                    <div class="section-title">📝 Examen Pratique C</div>
+                    <div class="resume-box">
+                        <b>Exercice:</b> Permuter deux nombres en utilisant les fonctions et les pointeurs.
+                    </div>
+                    <div class="code-block">
+void permuter(int *a, int *b) {
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+                    </div>
+
+                    <div class="section-title">⏱️ Quiz Rapide</div>
+                    <div class="quiz-container">
+                        <div class="quiz-question">1. Comment déclare-t-on un pointeur d'entier en C ?</div>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q-c1" value="1">int *ptr;</label>
+                            <label><input type="radio" name="q-c1" value="0">int &ptr;</label>
+                        </div>
+                        <button class="btn-quiz" onclick="verifierQuiz('q-c1', 1, 'res-c1')">Valider</button>
+                        <div class="quiz-result" id="res-c1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="c-sql" class="module-view hidden">
+                <div class="module-header">
+                    <h2>🗄️ Gestion des Bases de Données (Requêtes SQL complexes)</h2>
+                    <a href="https://www.youtube.com/results?search_query=sql+darija" target="_blank" class="btn-youtube">🎥 Prof SQL on YouTube</a>
+                </div>
+                
+                <div class="course-card">
+                    <div class="section-title">📖 Leçon: Les Jointures (JOIN) & Regroupements (GROUP BY)</div>
+                    <div class="resume-box">
+                        Kandiro <b>INNER JOIN</b> bash njm3ou bin 2 tableaux b l-clé primaire o l-clé étrangère. <b>GROUP BY</b> kandiroha m3a count() ou sum() bash n-calculew l-majmou3 standard.
+                    </div>
+                    <div class="code-block">
+-- Requête pour afficher le nombre d'étudiants par ville
+SELECT Ville, COUNT(*) AS TotalEtudiants
+FROM Etudiants
+GROUP BY Ville
+HAVING COUNT(*) > 1;
+                    </div>
+
+                    <div class="section-title">📝 Examen National Blanc (SQL)</div>
+                    <div class="resume-box">
+                        <b>Structure MLD:</b> <br>
+                        Filiere(<u>id_filiere</u>, nom_filiere) <br>
+                        Stagiaire(<u>num_inscription</u>, nom, prenom, #id_filiere)
+                    </div>
+                    <div class="code-block">
+-- Requête: Trouver les noms des stagiaires inscrits en filière 'DAI'
+SELECT S.nom, S.prenom 
+FROM Stagiaire S
+INNER JOIN Filiere F ON S.id_filiere = F.id_filiere
+WHERE F.nom_filiere = 'DAI';
+                    </div>
+
+                    <div class="section-title">⏱️ Quiz Niveau Avancé</div>
+                    <div class="quiz-container">
+                        <div class="quiz-question">1. Quelle clause utilise-t-on pour filtrer après un GROUP BY ?</div>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q-sql1" value="0">WHERE</label>
+                            <label><input type="radio" name="q-sql1" value="1">HAVING</label>
+                        </div>
+                        <button class="btn-quiz" onclick="verifierQuiz('q-sql1', 1, 'res-sql1')">Valider</button>
+                        <div class="quiz-result" id="res-sql1"></div>
+                    </div>
+                </div>
+            </div>
+			
+			<div id="c-multimedia" class="module-view hidden">
+                <div class="module-header">
+                    <h2>🎨 Intégration Web & Interactivité (HTML5 / CSS3 / JavaScript)</h2>
+                    <a href="https://www.youtube.com/results?search_query=html+css+javascript+darija" target="_blank" class="btn-youtube">🎥 Prof Multimedia on YouTube</a>
+                </div>
+                
+                <div class="course-card">
+                    <div class="section-title">📖 Leçon: Le DOM & Flexbox</div>
+                    <div class="resume-box">
+                        <b>HTML5</b> kay3ti l-bniya dyal l-page. <b>CSS3 Flexbox</b> kaykhlli l-ajza2 ykounou متناسقين (Responsive). <b>JavaScript</b> kay7kem f l-DOM dyal l-page bash t-reagir m3a l-clique dyal l-utilisateur.
+                    </div>
+                    <div class="code-block">
+/* Exemple CSS Flexbox */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+                    </div>
+                    <div class="code-block">
+// Exemple JS: Changer le texte au clic
+document.getElementById("btn").addEventListener("click", function() {
+    alert("Bonjour l'équipe DAI ! 🚀");
+});
+                    </div>
+
+                    <div class="section-title">📝 Examen Blanc Frontend</div>
+                    <div class="resume-box">
+                        <b>Exercice:</b> Créez un bouton qui cache/affiche un paragraphe à chaque fois qu'on clique dessus (Toggle effect).
+                    </div>
+                    <div class="code-block">
+function toggleText() {
+    let p = document.getElementById("monParagraphe");
+    if (p.style.display === "none") {
+        p.style.display = "block";
+    } else {
+        p.style.display = "none";
+    }
+}
+                    </div>
+
+                    <div class="section-title">⏱️ Quiz Frontend</div>
+                    <div class="quiz-container">
+                        <div class="quiz-question">1. Quel symbole utilise-t-on en CSS pour cibler une classe ?</div>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q-web1" value="0"># (Le Hashtag)</label>
+                            <label><input type="radio" name="q-web1" value="1">. (Le Point)</label>
+                        </div>
+                        <button class="btn-quiz" onclick="verifierQuiz('q-web1', 1, 'res-web1')">Valider</button>
+                        <div class="quiz-result" id="res-web1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="c-php" class="module-view hidden">
+                <div class="module-header">
+                    <h2>🐘 Développement Web Dynamique (Backend PHP & MySQL)</h2>
+                    <a href="https://www.youtube.com/results?search_query=php+mysql+darija" target="_blank" class="btn-youtube">🎥 Prof PHP on YouTube</a>
+                </div>
+                
+                <div class="course-card">
+                    <div class="section-title">📖 Leçon: Les Superglobales ($_POST & $_GET)</div>
+                    <div class="resume-box">
+                        PHP hwa langage Backend (kaykhdem f l-serveur b7al XAMPP). Kandiro <b>$_POST</b> bash n-recuperew l-data dyal l-formulaires b chkel sécurisé bla matban f l-URL.
+                    </div>
+                    <div class="code-block">
+&lt;?php
+// Connexion PDO à la base de données
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=bts_db", "root", "");
+    echo "Connexion réussie ! ✅";
+} catch(PDOException $e) {
+    die("Erreur: " . $e-&gt;getMessage());
+}
+?&gt;
+                    </div>
+
+                    <div class="section-title">📝 Examen Pratique Backend</div>
+                    <div class="resume-box">
+                        <b>Exercice:</b> Récupérer le champ email d'un formulaire et vérifier s'il n'est pas vide avant l'insertion.
+                    </div>
+                    <div class="code-block">
+&lt;?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = htmlspecialchars($_POST['email']);
+    if (!empty($email)) {
+        echo "L'adresse email est : " . $email;
+    }
+}
+?&gt;
+                    </div>
+
+                    <div class="section-title">⏱️ Quiz Backend</div>
+                    <div class="quiz-container">
+                        <div class="quiz-question">1. Quelle extension de fichier utilise-t-on pour un script PHP ?</div>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q-php1" value="1">.php</label>
+                            <label><input type="radio" name="q-php1" value="0">.html</label>
+                        </div>
+                        <button class="btn-quiz" onclick="verifierQuiz('q-php1', 1, 'res-php1')">Valider</button>
+                        <div class="quiz-result" id="res-php1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="c-organisation" class="module-view hidden">
+                <div class="module-header">
+                    <h2>📅 Khotta dyal Tndim l-Wa9t l l-Étudiants dyal Informatique</h2>
+                </div>
+                
+                <div class="course-card">
+                    <div class="conseil-card">
+                        <h3>💡 Kifach tnmedi wa9tek o t-majori f l-BTS DAI ?</h3>
+                        <p>L-mfield dyal l-informatique fih l-pratique bzzaf, dakchi 3lach had l-khotta hiya l-a7san :</p>
+                        <ul>
+                            <li><b>1. Qanoun 70/30 (70% Pratique, 30% Théorie):</b> Bla matb9ay ghir tqray l-leçons, 7lli VS Code o bday t-taper l-code o t-troubleshooti l-machakil rassek.</li>
+                            <li><b>2. Technique Pomodoro:</b> Khdmi 25 dqiqa focus (bla tlfn) o rta7i 5 dqayq. Katkhlli l-39l y39l 3la l-algorithmes dghya.</li>
+                            <li><b>3. T9sim l-Mawad f l-Ousbou3:</b>
+                                <ul>
+                                    <li><b>L-Itnayn o l-Trata2:</b> Khassihom l l-Logiciels o Coding (Python / Language C).</li>
+                                    <li><b>L-Arbi3a2:</b> Khassih l l-Bases de données (SQL) o l-Modeling.</li>
+                                    <li><b>L-Khmis o l-Joumo3a:</b> Khassihom l Frontend o PHP (Multimedia).</li>
+                                    <li><b>L-Sbt:</b> Révision o T9ad dyal l-projets li khedama 3lihom.</li>
+                                </ul>
+                            </li>
+                            <li><b>4. Projets Réels:</b> B7al had l-platforme li kaddiri daba, hiya li ghadi t-bni lik CV s7i7! 🔥</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                ✨ Plateforme Cours BTS — Conçue par Fatima Zahra Benjdia
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        if(!localStorage.getItem('liste_globale_etudiants')) {
+            localStorage.setItem('liste_globale_etudiants', JSON.stringify([]));
+        }
+
+        window.onload = function() {
+            if(localStorage.getItem('online_student')) {
+                chargerInterface();
+                changerModule('python');
+            }
+        };
+
+        function creerSession() {
+            const nom = document.getElementById('regNom').value;
+            const prenom = document.getElementById('regPrenom').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+            const niveau = document.getElementById('regNiveau').value;
+            const filiere = document.getElementById('regFiliere').value;
+            const ville = document.getElementById('regVille').value;
+            const error = document.getElementById('authError');
+
+            if(nom.trim() == "" || prenom.trim() == "" || email.trim() == "" || pass.trim() == "" || ville.trim() == "") {
+                error.style.display = "block";
+                error.innerText = "⚠️ S'il vous plaît, remplissez tous les champs !";
+                return;
+            }
+
+            const nouvelEtudiant = {
+                nom: nom,
+                prenom: prenom,
+                fullname: prenom + " " + nom,
+                niveau: niveau,
+                filiere: filiere,
+                ville: ville,
+                email: email
+            };
+
+            localStorage.setItem('online_student', JSON.stringify(nouvelEtudiant));
+
+            let listeGlobale = JSON.parse(localStorage.getItem('liste_globale_etudiants'));
+            let existe = listeGlobale.some(e => e.email === email);
+            if(!existe) {
+                listeGlobale.push(nouvelEtudiant);
+                localStorage.setItem('liste_globale_etudiants', JSON.stringify(listeGlobale));
+            }
+
+            chargerInterface();
+            changerModule('python');
+        }
+
+        function chargerInterface() {
+            const dataStr = localStorage.getItem('online_student');
+            if(dataStr) {
+                const etudiant = JSON.parse(dataStr);
+                document.getElementById('navUserBadge').innerText = "👤 " + etudiant.fullname;
+                document.getElementById('authBox').classList.add('hidden');
+                actualiserTableauAdmin();
+            }
+        }
+
+        function seDeconnecter() {
+            localStorage.removeItem('online_student');
+            document.getElementById('authBox').classList.remove('hidden');
+            document.getElementById('regNom').value = "";
+            document.getElementById('regPrenom').value = "";
+            document.getElementById('regEmail').value = "";
+            document.getElementById('regPass').value = "";
+            document.getElementById('regVille').value = "";
+            document.getElementById('authError').style.display = "none";
+        }
+
+        function changerModule(moduleId) {
+            const views = document.querySelectorAll('.module-view');
+            views.forEach(v => v.classList.add('hidden'));
+            
+            document.getElementById('c-' + moduleId).classList.remove('hidden');
+            
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(i => i.classList.remove('active'));
+            document.getElementById('m-' + moduleId).classList.add('active');
+        }
+
+        function actualiserTableauAdmin() {
+            let listeGlobale = JSON.parse(localStorage.getItem('liste_globale_etudiants'));
+            let tbody = document.getElementById('listeEtudiantsBody');
+            tbody.innerHTML = "";
+            
+            listeGlobale.forEach(e => {
+                let row = `<tr>
+                    <td>👤 ${e.fullname}</td>
+                    <td>📅 ${e.niveau}</td>
+                    <td>🎓 ${e.filiere}</td>
+                    <td>📍 ${e.ville}</td>
+                    <td><span class="badge-status">🟢 En ligne</span></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function verifierQuiz(name, correctValue, resultId) {
+            const options = document.getElementsByName(name);
+            let selectedValue = -1;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].checked) {
+                    selectedValue = options[i].value;
+                }
+            }
+            
+            const resultBox = document.getElementById(resultId);
+            resultBox.style.display = "block";
+            
+            if(selectedValue == correctValue) {
+                resultBox.className = "quiz-result result-correct";
+                resultBox.innerText = "🎉 Excellent ! Bonne réponse.";
+            } else if(selectedValue == -1) {
+                resultBox.className = "quiz-result result-wrong";
+                resultBox.innerText = "⚠️ S'il vous plaît, choisissez une réponse !";
+            } else {
+                resultBox.className = "quiz-result result-wrong";
+                resultBox.innerText = "❌ Mauvaise réponse, réessayez !";
+            }
+        }
+    </script>
+</body>
+</html>
